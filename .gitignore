@@ -2,3 +2,4 @@
 /dist/
 /rds_sql_backup.egg-info/
 *.pyc
+/config.yml

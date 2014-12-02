@@ -33,9 +33,10 @@ setup(name='rds_sql_backup',
       author_email='devs@aplopio.com',
       license='MIT',
       packages=['rds_sql_backup'],
+      include_package_data=True,
       entry_points={
           'console_scripts': [
-              'rds_sql_backup = rds_sql_backup.main:main',
+              'rds_sql_backup = rds_sql_backup.cli:main',
           ]
       },
       install_requires=requirements,
