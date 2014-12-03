@@ -1,3 +1,4 @@
 boto==2.34.0
 PyYAML==3.11
 click==3.3
+awscli==1.6.5
