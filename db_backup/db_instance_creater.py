@@ -7,5 +7,6 @@ def create_from_latest_snapshot(config):
               aws_region=config['aws_region'])
     snapshot = rds.get_latest_snapshot(
         rds_instance_id=config['rds_instance_id'])
-    instance = rds.create_instace_from_snapshot(snapshot)
+    instance = rds.create_instace_from_snapshot(
+        snapshot, config['rds_subnet_group'])
     return instance.id

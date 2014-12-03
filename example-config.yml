@@ -1,4 +1,5 @@
 rds_instance_id: database
+rds_subnet_group: default
 s3_bucket: some-bucket
 s3_prefix: sql-dump
 

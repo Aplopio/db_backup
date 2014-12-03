@@ -30,13 +30,14 @@ class RDS(object):
     def create_new_snapshot(self, db):
         """Given a db a completely new snapshot is created for it."""
 
-    def create_instace_from_snapshot(self, snapshot_id):
+    def create_instace_from_snapshot(self, snapshot_id, subnet_group):
         """Given a snapshot a new db instance is created from it."""
         instance_name = "sql-bkp-tmp-{}".format(
             datetime.now().strftime('%y-%b-%d-%H-%M-%S'))
         instance = self.conn.restore_dbinstance_from_dbsnapshot(
             identifier=snapshot_id, instance_id=instance_name,
-            instance_class='db.t2.medium', multi_az=False)
+            instance_class='db.t2.medium', multi_az=False,
+            db_subnet_group_name=subnet_group)
 
         def while_wating(instance, old_state):
             instance.update()
