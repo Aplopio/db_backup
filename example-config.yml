@@ -6,10 +6,6 @@ aws_access_key_id: COMPLETELYRANDOM
 aws_secret_access_key: completelyrandom
 aws_region: us-east-1
 
-db:
-  type: mysql
-  database: db
-  username: user
-  password: password
-
-dump_directory: /tmp/sql-dump/
+db_data: db
+db_user: user
+db_password: password

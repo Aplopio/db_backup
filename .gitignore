@@ -1,5 +1,5 @@
 /build/
 /dist/
-/rds_sql_backup.egg-info/
 *.pyc
 /config.yml
+/db_backup.egg-info/

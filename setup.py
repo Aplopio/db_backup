@@ -25,18 +25,18 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
-setup(name='rds_sql_backup',
+setup(name='db_backup',
       version='0.1',
       description='Automate the sql backups with rds.',
-      url='http://github.com/aplopio/rds_sql_backup',
+      url='http://github.com/aplopio/db_backup',
       author='Aplopio',
       author_email='devs@aplopio.com',
       license='MIT',
-      packages=['rds_sql_backup'],
+      packages=['db_backup'],
       include_package_data=True,
       entry_points={
           'console_scripts': [
-              'rds_sql_backup = rds_sql_backup.cli:main',
+              'db_backup = db_backup.cli:main',
           ]
       },
       install_requires=requirements,
