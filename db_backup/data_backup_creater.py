@@ -1,3 +1,4 @@
+from __future__ import print_function
 from datetime import datetime
 import subprocess
 
@@ -11,9 +12,10 @@ def dump_gzip_backkup(instance_id, config):
               aws_region=config['aws_region'])
     instance = rds.get_instance(instance_id)
     host = rds.get_host(instance)
-    s3_location = 's3://{}/{}/mysql-{}-{}.bkp.gz'.format(
+    s3_location = 's3://{}/{}/mysql-{}.bkp.gz'.format(
         config['s3_bucket'], config['s3_prefix'],
-        instance_id, datetime.now().strftime('%y-%b-%d-%H-%M-%S'))
+        datetime.now().strftime('%y-%b-%d-%H-%M-%S'))
+    print('Uploading to', s3_location)
     create_backup(host, s3_location, db_user=config['db_user'],
                   db_password=config['db_password'], db_name=config['db_name'])
 
