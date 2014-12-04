@@ -10,3 +10,4 @@ aws_region: us-east-1
 db_data: db
 db_user: user
 db_password: password
+compress_command: gzip

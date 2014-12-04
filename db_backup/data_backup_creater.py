@@ -17,16 +17,20 @@ def dump_gzip_backkup(instance_id, config):
         datetime.now().strftime('%y-%b-%d-%H-%M-%S'))
     print('Uploading to', s3_location)
     create_backup(host, s3_location, db_user=config['db_user'],
-                  db_password=config['db_password'], db_name=config['db_name'])
+                  db_password=config['db_password'], db_name=config['db_name'],
+                  compress_command=config.get('compress_command', 'gzip'))
 
 
-def create_backup(host, s3_location, db_user, db_password, db_name):
+def create_backup(host, s3_location, db_user, db_password, db_name,
+                  compress_command='gzip'):
     command_str = ('mysqldump --opt --add-drop-table --max_allowed_packet=256M'
                    ' --single-transaction --order-by-primary'
                    ' -h {host} -u {db_user} -p{db_password} {db_name}'
-                   ' | gzip -9 -c | aws s3 cp - {s3_location}').format(
+                   ' | {compress_command} -9c |'
+                   ' aws s3 cp - {s3_location}').format(
                        host=host, db_user=db_user, db_password=db_password,
-                       db_name=db_name, s3_location=s3_location)
+                       db_name=db_name, s3_location=s3_location,
+                       compress_command=compress_command)
     mysql_dump_command = subprocess.Popen(command_str, shell=True)
 
     wait.wait_for(
