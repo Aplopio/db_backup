@@ -28,6 +28,7 @@ class PyTest(TestCommand):
 setup(name='db_backup',
       version='0.1',
       description='Automate the sql backups with rds.',
+      long_description=open('Readme.rst').read(),
       url='http://github.com/aplopio/db_backup',
       author='Aplopio',
       author_email='devs@aplopio.com',
