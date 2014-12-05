@@ -5,6 +5,10 @@ import subprocess
 import wait
 from rds import RDS
 
+command_to_extension = {'gzip': 'gz',
+                        'bzip2': 'bz2',
+                        'xz': 'xz'}
+
 
 def dump_gzip_backkup(instance_id, config):
     rds = RDS(aws_id=config['aws_access_key_id'],
@@ -12,13 +16,16 @@ def dump_gzip_backkup(instance_id, config):
               aws_region=config['aws_region'])
     instance = rds.get_instance(instance_id)
     host = rds.get_host(instance)
-    s3_location = 's3://{}/{}/mysql-{}.bkp.gz'.format(
+    compress_command = config.get('compress_command', 'gzip')
+    assert compress_command in command_to_extension
+    s3_location = 's3://{}/{}/mysql-{}.bkp.{}'.format(
         config['s3_bucket'], config['s3_prefix'],
-        datetime.now().strftime('%y-%b-%d-%H-%M-%S'))
+        datetime.now().strftime('%y-%b-%d-%H-%M-%S'),
+        command_to_extension[compress_command])
     print('Uploading to', s3_location)
     create_backup(host, s3_location, db_user=config['db_user'],
                   db_password=config['db_password'], db_name=config['db_name'],
-                  compress_command=config.get('compress_command', 'gzip'))
+                  compress_command=compress_command)
 
 
 def create_backup(host, s3_location, db_user, db_password, db_name,
