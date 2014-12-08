@@ -7,7 +7,12 @@ aws_access_key_id: COMPLETELYRANDOM
 aws_secret_access_key: completelyrandom
 aws_region: us-east-1
 
-db_data: db
-db_user: user
-db_password: password
+databases:
+  - name: db1
+    user: user1
+    password: password1
+  - name: db2
+    user: user2
+    password: password2
+
 compress_command: gzip

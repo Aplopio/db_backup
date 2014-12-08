@@ -18,14 +18,16 @@ def dump_gzip_backkup(instance_id, config):
     host = rds.get_host(instance)
     compress_command = config.get('compress_command', 'gzip')
     assert compress_command in command_to_extension
-    s3_location = 's3://{}/{}/mysql-{}.bkp.{}'.format(
-        config['s3_bucket'], config['s3_prefix'],
-        datetime.now().strftime('%y-%b-%d-%H-%M-%S'),
-        command_to_extension[compress_command])
-    print('Uploading to', s3_location)
-    create_backup(host, s3_location, db_user=config['db_user'],
-                  db_password=config['db_password'], db_name=config['db_name'],
-                  compress_command=compress_command)
+
+    for db in config['databases']:
+        s3_location = 's3://{}/{}/{}-{}.sql.{}'.format(
+            config['s3_bucket'], config['s3_prefix'], db['name'],
+            datetime.now().strftime('%y-%b-%d-%H-%M-%S'),
+            command_to_extension[compress_command])
+        print('Backing Up', db['name'], 'to', s3_location)
+        create_backup(host, s3_location, db_user=db['user'],
+                      db_password=db['password'], db_name=db['name'],
+                      compress_command=compress_command)
 
 
 def create_backup(host, s3_location, db_user, db_password, db_name,
